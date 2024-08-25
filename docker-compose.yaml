@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  latex:
+    build: 
+      context: ./latex_docker
+    volumes:
+      - ${LATEX_SRC_DIR:-./src}:${LATEX_CONTAINER_SRC_DIR:-/project/src}
+      - ${LATEX_OUTPUT_DIR:-./output}:${LATEX_CONTAINER_OUTPUT_DIR:-/project/output}
+      - texmf-data:${LATEX_TEXMF_DIR:-/usr/local/texlive}
+    environment:
+      - LATEX_SRC_DIR=${LATEX_SRC_DIR:-./src}
+      - LATEX_OUTPUT_DIR=${LATEX_OUTPUT_DIR:-./output}
+    ports:
+      - "${LATEX_PORT:-3000}:3000"  # For LaTeX Workshop
+    working_dir: ${LATEX_CONTAINER_WORKDIR:-/project}
+    command: tail -f /dev/null
+
+volumes:
+  texmf-data:
