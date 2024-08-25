@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  latex:
+    build: ./latex_docker
+    environment:
+      - WORKDIR=/latex_project  # You can change this as needed
+    volumes:
+      - ./src:${WORKDIR}/src
+      - ./output:${WORKDIR}/output
+      - texmf-data:/usr/local/texlive
+    ports:
+      - "3000:3000"  # For LaTeX Workshop
+
+volumes:
+  texmf-data:
